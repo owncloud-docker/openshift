@@ -13,8 +13,8 @@ Since our container requires root permissions you have to enable this permission
 We provide 2 different templates, the `ephemeral.json` template provides an ownCloud installation without a persistent storage, this is useful for demo purposes, the other `persistent.json` template includes persistent volume claims and should be used for production workloads. After installing the template you should be able to find the templates within the regular OpenShift service catalogue.
 
 ```
-oc apply -f https://raw.githubusercontent.com/owncloud-docker/openshift/master/ephemeral.json
-oc apply -f https://raw.githubusercontent.com/owncloud-docker/openshift/master/persistent.json
+oc apply -n openshift -f https://raw.githubusercontent.com/owncloud-docker/openshift/master/ephemeral.json
+oc apply -n openshift -f https://raw.githubusercontent.com/owncloud-docker/openshift/master/persistent.json
 ```
 
 
