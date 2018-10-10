@@ -1,11 +1,8 @@
 # ownCloud: OpenShift
 
+[![Build Status](https://drone.owncloud.com/api/badges/owncloud-docker/openshift/status.svg)](https://drone.owncloud.com/owncloud-docker/openshift)
+
 This repository stores some simple templates to deploy ownCloud on OpenShift. If you find an issue or if you got an idea how to improve the template feel free to open an issue on this repository.
-
-
-## Notice
-
-Since our container requires root permissions you have to enable this permission specifically within OpenShift. You can enable this permission globally to all authenticated users via `oc adm policy add-scc-to-group anyuid system:authenticated`, or you can enable this specifically for ever project via `oc adm policy add-scc-to-user anyuid system:serviceaccount:<projectname>:owncloud`.
 
 
 ## Usage

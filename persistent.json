@@ -32,11 +32,11 @@
           "name": "owncloud"
         },
         "tls": {
-          "termination": "passthrough",
+          "termination": "edge",
           "insecureEdgeTerminationPolicy": "Redirect"
         },
         "port": {
-          "targetPort": "https"
+          "targetPort": "http"
         }
       }
     },
@@ -68,14 +68,8 @@
           {
             "name": "http",
             "protocol": "TCP",
-            "port": 80,
+            "port": 8080,
             "targetPort": "http"
-          },
-          {
-            "name": "https",
-            "protocol": "TCP",
-            "port": 443,
-            "targetPort": "https"
           }
         ],
         "selector": {
@@ -124,12 +118,7 @@
                   {
                     "name": "http",
                     "protocol": "TCP",
-                    "containerPort": 80
-                  },
-                  {
-                    "name": "https",
-                    "protocol": "TCP",
-                    "containerPort": 443
+                    "containerPort": 8080
                   }
                 ],
                 "readinessProbe": {
@@ -158,8 +147,16 @@
                     "value": "${OWNCLOUD_PUBLIC_DOMAIN}"
                   },
                   {
-                    "name": "OWNCLOUD_LOGLEVEL",
-                    "value": "2"
+                    "name": "OWNCLOUD_PROTOCOL",
+                    "value": "https"
+                  },
+                  {
+                    "name": "OWNCLOUD_CROND_ENABLED",
+                    "value": "false"
+                  },
+                  {
+                    "name": "OWNCLOUD_BACKGROUND_MODE",
+                    "value": "webcron"
                   },
                   {
                     "name": "OWNCLOUD_DB_TYPE",
@@ -198,20 +195,39 @@
                     "value": "/var/lib/owncloud"
                   },
                   {
+                    "name": "OWNCLOUD_LOG_FILE",
+                    "value": "/dev/stdout"
+                  },
+                  {
                     "name": "OWNCLOUD_ADMIN_USERNAME",
                     "value": "${OWNCLOUD_ADMIN_USERNAME}"
                   },
                   {
                     "name": "OWNCLOUD_ADMIN_PASSWORD",
                     "value": "${OWNCLOUD_ADMIN_PASSWORD}"
+                  },
+                  {
+                    "name": "OWNCLOUD_SESSION_SAVE_HANDLER",
+                    "value": "redis"
+                  },
+                  {
+                    "name": "OWNCLOUD_SESSION_SAVE_PATH",
+                    "value": "tcp://redis:6379?database=1"
+                  },
+                  {
+                    "name": "OWNCLOUD_SKIP_CHOWN",
+                    "value": "true"
                   }
                 ],
                 "volumeMounts": [
                   {
                     "name": "data",
-                    "mountPath": "/mnt/data"
+                    "mountPath": "/var/lib/owncloud"
                   }
-                ]
+                ],
+                "securityContext": {
+                  "allowPrivilegeEscalation": false
+                }
               }
             ],
             "volumes": [
@@ -326,7 +342,10 @@
                     "name": "data",
                     "mountPath": "/var/lib/mysql"
                   }
-                ]
+                ],
+                "securityContext": {
+                  "allowPrivilegeEscalation": false
+                }
               },
               {
                 "name": "healthcheck",
@@ -468,7 +487,10 @@
                     "name": "data",
                     "mountPath": "/data"
                   }
-                ]
+                ],
+                "securityContext": {
+                  "allowPrivilegeEscalation": false
+                }
               },
               {
                 "name": "healthcheck",
@@ -514,6 +536,37 @@
           }
         }
       }
+    },
+    {
+      "kind": "CronJob",
+      "apiVersion": "batch/v1beta1",
+      "metadata": {
+        "name": "webcron"
+      },
+      "spec": {
+        "schedule": "*/15 * * * *",
+        "successfulJobsHistoryLimit": 0,
+        "failedJobsHistoryLimit": 5,
+        "jobTemplate": {
+          "spec": {
+            "template": {
+              "spec": {
+                "restartPolicy": "OnFailure",
+                "containers": [
+                  {
+                    "name": "webcron",
+                    "image": "${OWNCLOUD_IMAGE_NAME}",
+                    "args": [
+                      "curl",
+                      "http://owncloud:8080/cron.php"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "parameters": [
@@ -521,7 +574,7 @@
       "name": "OWNCLOUD_PUBLIC_DOMAIN",
       "displayName": "ownCloud Domain",
       "description": "The domain where you want to reach ownCloud after the deployment.",
-      "value": "owncloud.172.18.16.156.xip.io",
+      "value": "",
       "required": true
     },
     {
@@ -540,7 +593,7 @@
       "name": "OWNCLOUD_IMAGE_NAME",
       "displayName": "ownCloud Docker Image",
       "description": "The name of the ownCloud Docker image used within the OpenShift deployment.",
-      "value": "owncloud/server:10.0"
+      "value": "owncloud/server:10.0.10"
     },
     {
       "name": "OWNCLOUD_VOLUME_CAPACITY",
