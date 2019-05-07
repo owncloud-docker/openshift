@@ -310,7 +310,7 @@
             "containers": [
               {
                 "name": "mariadb",
-                "image": "library/mariadb:10.3",
+                "image": "docker.io/mariadb:10.4",
                 "imagePullPolicy": "Always",
                 "ports": [
                   {
@@ -349,7 +349,7 @@
               },
               {
                 "name": "healthcheck",
-                "image": "healthcheck/mysql:latest",
+                "image": "docker.io/healthcheck/mysql:latest",
                 "imagePullPolicy": "Always",
                 "command": [
                   "/bin/bash",
@@ -473,7 +473,7 @@
             "containers": [
               {
                 "name": "redis",
-                "image": "library/redis:3.2",
+                "image": "docker.io/redis:5.0",
                 "imagePullPolicy": "Always",
                 "ports": [
                   {
@@ -494,7 +494,7 @@
               },
               {
                 "name": "healthcheck",
-                "image": "healthcheck/redis:latest",
+                "image": "docker.io/healthcheck/redis:latest",
                 "imagePullPolicy": "Always",
                 "command": [
                   "/bin/bash",
@@ -593,7 +593,7 @@
       "name": "OWNCLOUD_IMAGE_NAME",
       "displayName": "ownCloud Docker Image",
       "description": "The name of the ownCloud Docker image used within the OpenShift deployment.",
-      "value": "owncloud/server:10.0.10"
+      "value": "docker.io/owncloud/server:10.1.1"
     },
     {
       "name": "OWNCLOUD_VOLUME_CAPACITY",
