@@ -15,7 +15,7 @@ def test():
         'name': 'lint',
         'image': 'python:alpine',
         'commands': [
-          'pip install yamllint',
+          'pip install -qq yamllint',
           'yamllint owncloud-*.yml',
         ],
       },
