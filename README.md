@@ -12,7 +12,7 @@ This repository stores some simple templates to deploy ownCloud on OpenShift. If
 We provide 2 different templates, the `ephemeral.json` template provides an ownCloud installation without a persistent storage, this is useful for demo purposes, the other `persistent.json` template includes persistent volume claims and should be used for production workloads. After installing the template you should be able to find the templates within the regular OpenShift service catalogue.
 
 ```Shell
-oc apply -n openshift -f https://raw.githubusercontent.com/owncloud-docker/openshift/master/owncloud-ephemeral.ym
+oc apply -n openshift -f https://raw.githubusercontent.com/owncloud-docker/openshift/master/owncloud-ephemeral.yml
 oc apply -n openshift -f https://raw.githubusercontent.com/owncloud-docker/openshift/master/owncloud-persistent.yml
 ```
 
