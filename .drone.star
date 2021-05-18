@@ -1,5 +1,5 @@
 def main(ctx):
-    return test() + rocketchat()
+    return [checkStarlark()] + test() + rocketchat()
 
 def test():
     return [{
@@ -36,6 +36,44 @@ def test():
             ],
         },
     }]
+
+def checkStarlark():
+    return {
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "check-starlark",
+        "steps": [
+            {
+                "name": "format-check-starlark",
+                "image": "owncloudci/bazel-buildifier",
+                "pull": "always",
+                "commands": [
+                    "buildifier --mode=check .drone.star",
+                ],
+            },
+            {
+                "name": "show-diff",
+                "image": "owncloudci/bazel-buildifier",
+                "pull": "always",
+                "commands": [
+                    "buildifier --mode=fix .drone.star",
+                    "git diff",
+                ],
+                "when": {
+                    "status": [
+                        "failure",
+                    ],
+                },
+            },
+        ],
+        "depends_on": [],
+        "trigger": {
+            "ref": [
+                "refs/heads/master",
+                "refs/pull/**",
+            ],
+        },
+    }
 
 def rocketchat():
     return [{
