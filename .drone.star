@@ -9,7 +9,7 @@ def checkStarlark():
         "steps": [
             {
                 "name": "format-check-starlark",
-                "image": "owncloudci/bazel-buildifier",
+                "image": "docker.io/owncloudci/bazel-buildifier",
                 "pull": "always",
                 "commands": [
                     "buildifier --mode=check .drone.star",
@@ -17,7 +17,7 @@ def checkStarlark():
             },
             {
                 "name": "show-diff",
-                "image": "owncloudci/bazel-buildifier",
+                "image": "docker.io/owncloudci/bazel-buildifier",
                 "pull": "always",
                 "commands": [
                     "buildifier --mode=fix .drone.star",
@@ -51,15 +51,14 @@ def test():
         "steps": [
             {
                 "name": "lint",
-                "image": "python:alpine",
+                "image": "docker.io/owncloudci/alpine",
                 "commands": [
-                    "pip install -qq yamllint",
                     "yamllint owncloud-*.yml",
                 ],
             },
             {
                 "name": "link-check",
-                "image": "ghcr.io/tcort/markdown-link-check:stable",
+                "image": "ghcr.io/tcort/markdown-link-check:3.11.0",
                 "commands": [
                     "/src/markdown-link-check README.md",
                 ],
@@ -92,7 +91,7 @@ def rocketchat():
         "steps": [
             {
                 "name": "notify",
-                "image": "plugins/slack",
+                "image": "docker.io/plugins/slack",
                 "pull": "always",
                 "failure": "ignore",
                 "settings": {
