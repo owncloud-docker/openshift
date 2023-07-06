@@ -96,9 +96,11 @@ def rocketchat():
                 "failure": "ignore",
                 "settings": {
                     "webhook": {
-                        "from_secret": "public_rocketchat",
+                        "from_secret": "rocketchat_talk_webhook",
                     },
-                    "channel": "docker",
+                    "channel": {
+                        "from_secret": "rocketchat_talk_channel",
+                    },
                 },
             },
         ],
