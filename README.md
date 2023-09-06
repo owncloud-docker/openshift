@@ -1,6 +1,6 @@
 # ownCloud: OpenShift
 
-[![Build Status](https://img.shields.io/drone/build/owncloud-docker/openshift?logo=drone&server=https%3A%2F%2Fdrone.owncloud.com)](https://drone.owncloud.com/owncloud-docker/openshift)
+[![Build Status](https://drone.owncloud.com/api/badges/owncloud-docker/openshift/status.svg)](https://drone.owncloud.com/owncloud-docker/openshift)
 [![GitHub contributors](https://img.shields.io/github/contributors/owncloud-docker/openshift)](https://github.com/owncloud-docker/openshift/graphs/contributors)
 [![Source: GitHub](https://img.shields.io/badge/source-github-blue.svg?logo=github&logoColor=white)](https://github.com/owncloud-docker/openshift)
 [![License: MIT](https://img.shields.io/github/license/owncloud-docker/openshift)](https://github.com/owncloud-docker/openshift/blob/master/LICENSE)
