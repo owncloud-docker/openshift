@@ -58,7 +58,7 @@ def test():
             },
             {
                 "name": "link-check",
-                "image": "ghcr.io/tcort/markdown-link-check:3.11.0",
+                "image": "ghcr.io/tcort/markdown-link-check:stable",
                 "commands": [
                     "/src/markdown-link-check README.md",
                 ],
