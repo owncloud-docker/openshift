@@ -10,7 +10,6 @@ def checkStarlark():
             {
                 "name": "format-check-starlark",
                 "image": "docker.io/owncloudci/bazel-buildifier",
-                "pull": "always",
                 "commands": [
                     "buildifier -d -diff_command='diff -u' .drone.star",
                 ],
@@ -78,7 +77,6 @@ def rocketchat():
             {
                 "name": "notify",
                 "image": "docker.io/plugins/slack",
-                "pull": "always",
                 "failure": "ignore",
                 "settings": {
                     "webhook": {
