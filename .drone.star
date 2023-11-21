@@ -12,22 +12,8 @@ def checkStarlark():
                 "image": "docker.io/owncloudci/bazel-buildifier",
                 "pull": "always",
                 "commands": [
-                    "buildifier --mode=check .drone.star",
+                    "buildifier -d -diff_command='diff -u' .drone.star",
                 ],
-            },
-            {
-                "name": "show-diff",
-                "image": "docker.io/owncloudci/bazel-buildifier",
-                "pull": "always",
-                "commands": [
-                    "buildifier --mode=fix .drone.star",
-                    "git diff",
-                ],
-                "when": {
-                    "status": [
-                        "failure",
-                    ],
-                },
             },
         ],
         "depends_on": [],
