@@ -57,7 +57,7 @@ def test():
                 },
             ],
             "depends_on": [
-                "check-starlark",
+                "lint",
             ],
             "trigger": {
                 "ref": [
