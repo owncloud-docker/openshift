@@ -1,19 +1,23 @@
 def main(ctx):
-    return checkStarlark() + test() + rocketchat()
+    return lint() + test() + rocketchat()
 
-def checkStarlark():
+def lint():
     return [
         {
             "kind": "pipeline",
             "type": "docker",
-            "name": "check-starlark",
+            "name": "lint",
             "steps": [
                 {
-                    "name": "format-check-starlark",
+                    "name": "starlark-format",
                     "image": "docker.io/owncloudci/bazel-buildifier",
                     "commands": [
                         "buildifier -d -diff_command='diff -u' .drone.star",
                     ],
+                },
+                {
+                    "name": "editorconfig-format",
+                    "image": "docker.io/mstruebing/editorconfig-checker",
                 },
             ],
             "depends_on": [],
